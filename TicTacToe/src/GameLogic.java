@@ -55,12 +55,25 @@ public class GameLogic {
         winCheck[0] = checkHorizontal(x, value);
         winCheck[1] = checkVertical(y, value);
         winCheck[2] = checkDiagonal(x, y, value);
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 3; i++){
             if(winCheck[i] == true){
+                System.out.println("Winner!!!!!!!!!");
                 return true;
             }
         }
         return false;
+    }
+    
+    
+    public boolean checkDraw(){
+        for (int i = 0; i < blockValues.length; i++) {
+            for (int j = 0; j < blockValues[i].length; j++) {
+                if (blockValues[i][j] == -1) {
+                    return false; // Found a value equal to -1
+                }
+            }
+        }
+        return true;
     }
 
     private boolean checkHorizontal(int x, int value) {
@@ -114,10 +127,6 @@ public class GameLogic {
                 }
                 if(sameValRD == 3){
                     System.out.println("Win! RD");
-                    return true;
-                }
-                if(sameValLD == 3){
-                    System.out.println("Win! LD");
                     return true;
                 }
             }

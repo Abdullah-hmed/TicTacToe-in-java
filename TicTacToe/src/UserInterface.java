@@ -57,15 +57,15 @@ class UserInterface extends JFrame {
     }
 
     private void addPanels() {
-//        r1c1.setBackground(Color.red);
-//        r1c2.setBackground(Color.blue);
-//        r1c3.setBackground(Color.green);
-//        r2c1.setBackground(Color.red);
-//        r2c2.setBackground(Color.blue);
-//        r2c3.setBackground(Color.green);
-//        r3c1.setBackground(Color.red);
-//        r3c2.setBackground(Color.blue);
-//        r3c3.setBackground(Color.green);
+//        r1c1.setBackground(Color.white);
+//        r1c2.setBackground(Color.white);
+//        r1c3.setBackground(Color.white);
+//        r2c1.setBackground(Color.white);
+//        r2c2.setBackground(Color.white);
+//        r2c3.setBackground(Color.white);
+//        r3c1.setBackground(Color.white);
+//        r3c2.setBackground(Color.white);
+//        r3c3.setBackground(Color.white);
 
         r1c1.addMouseListener(new onClick(this, 1, 1));
         r1c2.addMouseListener(new onClick(this, 1, 2));

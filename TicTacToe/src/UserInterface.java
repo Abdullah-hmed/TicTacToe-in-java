@@ -29,13 +29,14 @@ class UserInterface extends JFrame {
     JPanel turnPanel = new JPanel();
     JLabel turn = new JLabel();
     
-    GameLogic logic = new GameLogic();
+    public GameLogic logic = GameLogic.getLogicInstance();
     
     public void LoadUI(){
         setUIItems();
         playerTurn = random.nextInt(2);
         System.out.println(playerTurn);
         addPanels();
+        logic.setInitialValues();
     }
     
     private void setUIItems(){
@@ -66,15 +67,15 @@ class UserInterface extends JFrame {
 //        r3c2.setBackground(Color.blue);
 //        r3c3.setBackground(Color.green);
 
-        r1c1.addMouseListener(new onClick());
-        r1c2.addMouseListener(new onClick());
-        r1c3.addMouseListener(new onClick());
-        r2c1.addMouseListener(new onClick());
-        r2c2.addMouseListener(new onClick());
-        r2c3.addMouseListener(new onClick());
-        r3c1.addMouseListener(new onClick());
-        r3c2.addMouseListener(new onClick());
-        r3c3.addMouseListener(new onClick());
+        r1c1.addMouseListener(new onClick(this, 1, 1));
+        r1c2.addMouseListener(new onClick(this, 1, 2));
+        r1c3.addMouseListener(new onClick(this, 1, 3));
+        r2c1.addMouseListener(new onClick(this, 2, 1));
+        r2c2.addMouseListener(new onClick(this, 2, 2));
+        r2c3.addMouseListener(new onClick(this, 2, 3));
+        r3c1.addMouseListener(new onClick(this, 3, 1));
+        r3c2.addMouseListener(new onClick(this, 3, 2));
+        r3c3.addMouseListener(new onClick(this, 3, 3));
         gamePanel.add(r1c1);
         gamePanel.add(r1c2);
         gamePanel.add(r1c3);
@@ -91,10 +92,13 @@ class UserInterface extends JFrame {
     }
 
     public void updateTurn(){
-        playerTurn = logic.getNextTurn(playerTurn);
-        System.out.println("Turn: "+playerTurn);
-        turn.setText("Turn: "+playerTurn);
+    playerTurn = logic.getNextTurn(playerTurn);
+    System.out.println("Turn: "+playerTurn);
+    turn.setText("Turn: "+playerTurn);
+    mainPanel.revalidate();
+    mainPanel.repaint();
     }
+
     
     
 }

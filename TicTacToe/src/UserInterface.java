@@ -20,6 +20,7 @@ import javax.swing.JRadioButton;
 class UserInterface extends JFrame {
     public static int playerTurn;
     public static boolean pvpGameType = true;
+    public static boolean isRestarting = false;
     public GameLogic logic = GameLogic.getLogicInstance();
     Random random = new Random();
     JPanel[][] gridPanels;
@@ -105,7 +106,7 @@ class UserInterface extends JFrame {
         System.out.println(newTurn);
     }
 
-    public void updateTurn(){
+     public void updateTurn(){
         playerTurn = logic.getNextTurn(playerTurn);
         System.out.println("Turn: "+playerTurn);
         if(playerTurn == 0){
@@ -146,10 +147,16 @@ class UserInterface extends JFrame {
         if(logic.checkWin(i, j, playerValue)){
             JOptionPane.showMessageDialog(null, "Player "+playerSign+" Wins!!!");
             restart();
+            if(!pvpGameType){
+                return;
+            }
         }
         if(logic.checkDraw()){
             JOptionPane.showMessageDialog(null, "Draw Occurred");
             restart();
+            if(!pvpGameType){
+                return;
+            }
         }
         updateTurn();
     }

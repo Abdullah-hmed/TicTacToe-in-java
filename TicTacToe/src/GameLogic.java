@@ -11,6 +11,8 @@ public class GameLogic {
     final int COLUMN = 3;
     int[][] blockValues = new int[ROW][COLUMN];
     
+    int recentX;
+    int recentY;
     
     public int getNextTurn(int turn){
         if(turn == 1){
@@ -40,6 +42,7 @@ public class GameLogic {
         blockValues[x][y] = turn;
         
         // Print the array for verification
+        System.out.println("--------------------------------------------");
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COLUMN; j++) {
                 System.out.print(blockValues[i][j] + " ");
@@ -144,4 +147,114 @@ public class GameLogic {
             return true;
         }
     }
+    
+    public int[] NextEmpty(){
+        int[] emptyVal = new int[2];
+        for(int i=0 ; i< ROW ; i++){
+            for(int j=0 ; j< COLUMN ; j++){
+                if(blockValues[i][j] == -1){
+                    emptyVal[0] = i;
+                    emptyVal[1] = j;
+                    return emptyVal;
+                }
+                else{
+                    checkDraw();
+                }
+            }
+        }
+        return null;
+    }
+    
+
+    
+    public int[] findBestMove() {
+        int[] bestMove = {-1, -1};
+        int bestScore = Integer.MIN_VALUE;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (blockValues[i][j] == -1) {
+                    blockValues[i][j] = 1; // Assume it's the maximizing player's move
+                    int score = minimax(blockValues, 0, false);
+                    blockValues[i][j] = -1;
+
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove[0] = i;
+                        bestMove[1] = j;
+                    }
+                }
+            }
+        }
+
+        return bestMove;
+}
+
+
+    public static int minimax(int[][] board, int depth, boolean isMaximizing) {
+        int result = evaluate(board);
+
+        if (result != 0) {
+            return result;
+        }
+
+        if (isMaximizing) {
+            int bestScore = Integer.MIN_VALUE;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board[i][j] == -1) {
+                        board[i][j] = 1;
+                        bestScore = Math.max(bestScore, minimax(board, depth + 1, !isMaximizing));
+                        board[i][j] = -1;
+                    }
+                }
+            }
+            return bestScore;
+        } else {
+            int bestScore = Integer.MAX_VALUE;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board[i][j] == -1) {
+                        board[i][j] = 0;
+                        bestScore = Math.min(bestScore, minimax(board, depth + 1, !isMaximizing));
+                        board[i][j] = -1;
+                    }
+                }
+            }
+            return bestScore;
+        }
+    }
+
+
+    public static int evaluate(int[][] board) {
+        // Check for a win
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != -1) {
+                return (board[i][0] == 1) ? 1 : -1;
+            }
+            if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != -1) {
+                return (board[0][i] == 1) ? 1 : -1;
+            }
+        }
+
+        // Check for a diagonal win
+        if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != -1) {
+            return (board[0][0] == 1) ? 1 : -1;
+        }
+        if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != -1) {
+            return (board[0][2] == 1) ? 1 : -1;
+        }
+
+        // Check for a draw
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == -1) {
+                    return 0; // The game is still ongoing
+                }
+            }
+        }
+
+        return 0; // It's a draw
+    }
+
 }

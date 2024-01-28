@@ -15,7 +15,7 @@ public class onClick extends MouseAdapter{
     int i;
     int j;
     GameLogic logic = GameLogic.getLogicInstance();
-    boolean labelAdded = false;
+    boolean labelAdded;
     public onClick(UserInterface ui, int i, int j) {
         this.ui = ui;
         this.i = i;
@@ -27,40 +27,12 @@ public class onClick extends MouseAdapter{
         JPanel clickedPanel = (JPanel) e.getSource();
         JLabel ticTac = new JLabel();
         ticTac.setFont(new Font("Serif", Font.BOLD, 70));
-        labelAdded = logic.labelAddedCheck(i-1,j-1);
+        labelAdded = logic.labelAddedCheck(i,j);
         if(!labelAdded){
             if(UserInterface.playerTurn == 0){//Player 0 logic
-                ticTac.setText("✓");
-                clickedPanel.add(ticTac);
-                ui.mainPanel.revalidate();
-                ui.mainPanel.repaint();
-                logic.setBlockValue(i-1, j-1, 0);
-                //labelAdded = logic.labelAddedCheck(i-1,j-1);
-                if(logic.checkWin(i-1, j-1, 0)){
-                    JOptionPane.showMessageDialog(null, "Player ✓ Wins!!!");
-                    restart();
-                }
-                if(logic.checkDraw()){
-                    JOptionPane.showMessageDialog(null, "Draw Occurred");
-                    restart();
-                }
-                ui.updateTurn();
+                ui.playerTurn(ticTac, clickedPanel, "✓", 0, i, j);
             } else{ //Player 1 logic
-                ticTac.setText("X");
-                clickedPanel.add(ticTac);
-                ui.mainPanel.revalidate();
-                ui.mainPanel.repaint();
-                logic.setBlockValue(i-1, j-1, 1);
-                //labelAdded = logic.labelAddedCheck(i-1,j-1);
-                if(logic.checkWin(i-1, j-1, 1)){
-                    JOptionPane.showMessageDialog(null, "Player X Wins!!!");
-                    restart();
-                }
-                if(logic.checkDraw()){
-                    JOptionPane.showMessageDialog(null, "Draw Occurred");
-                    restart();
-                }
-                ui.updateTurn();
+                ui.playerTurn(ticTac, clickedPanel, "X", 1, i, j);
             }
         } else{
             System.out.println("Already Clicked!");
@@ -73,8 +45,7 @@ public class onClick extends MouseAdapter{
     
     
     
-    public void restart(){
-        logic.restartGame();
-        ui.emptyPanels();
-    }
+    
+    
+    
 }

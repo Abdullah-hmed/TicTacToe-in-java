@@ -32,8 +32,8 @@ class UserInterface extends JFrame {
     public GameLogic logic = GameLogic.getLogicInstance();
     
     public void LoadUI(){
-        setUIItems();
         playerTurn = random.nextInt(2);
+        setUIItems();
         System.out.println(playerTurn);
         addPanels();
         logic.setInitialValues();
@@ -41,7 +41,11 @@ class UserInterface extends JFrame {
     
     private void setUIItems(){
         setSize(500,500);
-        turn.setText("Turn:"+playerTurn);
+        if(playerTurn == 0){
+            turn.setText("Turn: ✓");
+        }else{
+            turn.setText("Turn: X");
+        }
         System.out.println("Turn:"+playerTurn);
         turn.setFont(new Font("Serif",Font.BOLD, 20));
         mainPanel.add(turn);
@@ -94,11 +98,25 @@ class UserInterface extends JFrame {
     public void updateTurn(){
     playerTurn = logic.getNextTurn(playerTurn);
     System.out.println("Turn: "+playerTurn);
-    turn.setText("Turn: "+playerTurn);
+    if(playerTurn == 0){
+        turn.setText("Turn: ✓");
+    }else{
+        turn.setText("Turn: X");
+    }
     mainPanel.revalidate();
     mainPanel.repaint();
     }
 
-    
+    public void emptyPanels(){
+        r1c1.removeAll();
+        r1c2.removeAll();
+        r1c3.removeAll();
+        r2c1.removeAll();
+        r2c2.removeAll();
+        r2c3.removeAll();
+        r3c1.removeAll();
+        r3c2.removeAll();
+        r3c3.removeAll();
+    }
     
 }

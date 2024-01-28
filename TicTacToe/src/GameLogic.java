@@ -133,4 +133,15 @@ public class GameLogic {
         return false;
     }
     
+    public void restartGame(){
+        setInitialValues();
+    }
+    
+    public boolean labelAddedCheck(int i, int j){
+        if(blockValues[i][j] == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
